@@ -1,160 +1,183 @@
-% Base de conocimientos y Motor de Inferencia
-evaluar(Palabra) :- 
+:- encoding(utf8).
+
+% ==========================================================
+% SISTEMA EXPERTO ORTOGRÁFICO
+% Base de conocimientos + motor de inferencia
+% ==========================================================
+
+% Motor de inferencia:
+% Busca una coincidencia en la base de conocimientos y
+% muestra el diagnóstico correspondiente.
+evaluar(Palabra) :-
     diagnostico(Palabra, Resultado),
-    writeln(Resultado).
+    writeln(Resultado),
+    !.
 
-% --- REGLAS DE C, S y Z ---
-diagnostico(cancion, '¡Excelente! La palabra está escrita correctamente.').
-diagnostico(cansion, 'Error: Las palabras que terminan en -ción se escriben con C si derivan de palabras terminadas en -to, -tor (ej. canto -> cancion).').
+% ----------------------------------------------------------
+% C, S y Z
+% ----------------------------------------------------------
+diagnostico('canción', '¡Excelente! La palabra está escrita correctamente.').
+diagnostico(cancion, 'Error: La palabra correcta es "canción", con C y acento en la o.').
+diagnostico(cansion, 'Error: La palabra correcta es "canción", con C y acento en la o.').
 
-diagnostico(desicion, 'Error: Las palabras terminadas en -sión se escriben con S cuando derivan de verbos terminados en -der, -dir (ej. decidir -> decision).').
-diagnostico(decision, '¡Excelente! La palabra está escrita correctamente.').
+diagnostico('decisión', '¡Excelente! La palabra está escrita correctamente.').
+diagnostico(decision, 'Error: La palabra correcta es "decisión", con C y acento en la o.').
+diagnostico(desicion, 'Error: La palabra correcta es "decisión", con C y acento en la o.').
 
-diagnostico(refacsion, 'Error: La palabra correcta es "refacción", con C.').
-diagnostico(refaccion, '¡Excelente! La palabra está escrita correctamente.').
+diagnostico('refacción', '¡Excelente! La palabra está escrita correctamente.').
+diagnostico(refaccion, 'Error: La palabra correcta es "refacción", con C y acento en la o.').
+diagnostico(refacsion, 'Error: La palabra correcta es "refacción", con C y acento en la o.').
 
-diagnostico(sapatos, 'Error: La palabra correcta es "zapatos", con Z.').
 diagnostico(zapatos, '¡Excelente! La palabra está escrita correctamente.').
+diagnostico(sapatos, 'Error: La palabra correcta es "zapatos", con Z.').
 
-diagnostico(ganansia, 'Error: Las palabras terminadas en -ancia se escriben con C. La palabra correcta es "ganancia".').
 diagnostico(ganancia, '¡Excelente! La palabra está escrita correctamente.').
+diagnostico(ganansia, 'Error: La palabra correcta es "ganancia", con C.').
 
-
-% --- REGLAS DE LA H ---
-diagnostico(acer, 'Error: La palabra correcta es "hacer", con H.').
+% ----------------------------------------------------------
+% H
+% ----------------------------------------------------------
 diagnostico(hacer, '¡Excelente! La palabra está escrita correctamente.').
+diagnostico(acer, 'Error: La palabra correcta es "hacer", con H.').
 
-diagnostico(aver, 'Error: La palabra correcta es "haber", con H.').
 diagnostico(haber, '¡Excelente! La palabra está escrita correctamente.').
+diagnostico(aver, 'Error: La palabra correcta es "haber", con H.').
 
-diagnostico(ola, 'Error: Si te refieres al saludo, la palabra correcta es "hola", con H.').
 diagnostico(hola, '¡Excelente! La palabra está escrita correctamente.').
+diagnostico(ola, 'Error: Si te refieres al saludo, la palabra correcta es "hola", con H.').
 
-diagnostico(asta, 'Error: Si te refieres a la forma verbal, la palabra correcta es "hasta", con H.').
 diagnostico(hasta, '¡Excelente! La palabra está escrita correctamente.').
+diagnostico(asta, 'Error: Si te refieres a la preposición o límite de tiempo/lugar, la palabra correcta es "hasta", con H.').
 
-diagnostico(echo, 'Error: La palabra correcta es "hecho", con H, cuando se refiere a algo realizado.').
 diagnostico(hecho, '¡Excelente! La palabra está escrita correctamente.').
+diagnostico(echo, 'Error: La palabra correcta es "hecho", con H, cuando se refiere a algo realizado.').
 
-diagnostico(ermano, 'Error: La palabra correcta es "hermano", con H.').
 diagnostico(hermano, '¡Excelente! La palabra está escrita correctamente.').
+diagnostico(ermano, 'Error: La palabra correcta es "hermano", con H.').
 
-diagnostico(ospital, 'Error: La palabra correcta es "hospital", con H.').
 diagnostico(hospital, '¡Excelente! La palabra está escrita correctamente.').
+diagnostico(ospital, 'Error: La palabra correcta es "hospital", con H.').
 
-diagnostico(uevo, 'Error: La palabra correcta es "huevo", con H.').
 diagnostico(huevo, '¡Excelente! La palabra está escrita correctamente.').
+diagnostico(uevo, 'Error: La palabra correcta es "huevo", con H.').
 
-diagnostico(ielo, 'Error: La palabra correcta es "hielo", con H.').
 diagnostico(hielo, '¡Excelente! La palabra está escrita correctamente.').
+diagnostico(ielo, 'Error: La palabra correcta es "hielo", con H.').
 
-diagnostico(ora, 'Error: La palabra correcta es "hora", con H, cuando se refiere a una unidad de tiempo.').
 diagnostico(hora, '¡Excelente! La palabra está escrita correctamente.').
+diagnostico(ora, 'Error: La palabra correcta es "hora", con H, cuando se refiere a una unidad de tiempo.').
 
-
-% --- REGLAS DE B y V ---
-diagnostico(vien, 'Error: La palabra correcta es "bien", con B.').
+% ----------------------------------------------------------
+% B y V
+% ----------------------------------------------------------
 diagnostico(bien, '¡Excelente! La palabra está escrita correctamente.').
+diagnostico(vien, 'Error: La palabra correcta es "bien", con B.').
 
-diagnostico(bida, 'Error: La palabra correcta es "vida", con V.').
 diagnostico(vida, '¡Excelente! La palabra está escrita correctamente.').
+diagnostico(bida, 'Error: La palabra correcta es "vida", con V.').
 
-diagnostico(vuscar, 'Error: La palabra correcta es "buscar", con B.').
 diagnostico(buscar, '¡Excelente! La palabra está escrita correctamente.').
+diagnostico(vuscar, 'Error: La palabra correcta es "buscar", con B.').
 
-diagnostico(berdad, 'Error: La palabra correcta es "verdad", con V.').
 diagnostico(verdad, '¡Excelente! La palabra está escrita correctamente.').
+diagnostico(berdad, 'Error: La palabra correcta es "verdad", con V.').
 
-diagnostico(bolver, 'Error: La palabra correcta es "volver", con V.').
 diagnostico(volver, '¡Excelente! La palabra está escrita correctamente.').
+diagnostico(bolver, 'Error: La palabra correcta es "volver", con V.').
 
-diagnostico(veso, 'Error: La palabra correcta es "beso", con B.').
 diagnostico(beso, '¡Excelente! La palabra está escrita correctamente.').
+diagnostico(veso, 'Error: La palabra correcta es "beso", con B.').
 
-diagnostico(bivir, 'Error: La palabra correcta es "vivir", con V.').
 diagnostico(vivir, '¡Excelente! La palabra está escrita correctamente.').
+diagnostico(bivir, 'Error: La palabra correcta es "vivir", con V.').
 
-diagnostico(vajar, 'Error: La palabra correcta es "bajar", con B.').
 diagnostico(bajar, '¡Excelente! La palabra está escrita correctamente.').
+diagnostico(vajar, 'Error: La palabra correcta es "bajar", con B.').
 
-diagnostico(baca, 'Error: La palabra correcta es "vaca", con V.').
 diagnostico(vaca, '¡Excelente! La palabra está escrita correctamente.').
+diagnostico(baca, 'Error: La palabra correcta es "vaca", con V.').
 
-diagnostico(votella, 'Error: La palabra correcta es "botella", con B.').
 diagnostico(botella, '¡Excelente! La palabra está escrita correctamente.').
+diagnostico(votella, 'Error: La palabra correcta es "botella", con B.').
 
-diagnostico(vusqueda, 'Error: La palabra correcta es "búsqueda", con B.').
-diagnostico(busqueda, '¡Excelente! La palabra está escrita correctamente.').
+diagnostico('búsqueda', '¡Excelente! La palabra está escrita correctamente.').
+diagnostico(busqueda, 'Error: La palabra correcta es "búsqueda", con B y acento en la u.').
+diagnostico(vusqueda, 'Error: La palabra correcta es "búsqueda", con B y acento en la u.').
 
-diagnostico(viblioteca, 'Error: La palabra correcta es "biblioteca", con B.').
 diagnostico(biblioteca, '¡Excelente! La palabra está escrita correctamente.').
+diagnostico(viblioteca, 'Error: La palabra correcta es "biblioteca", con B.').
 
-diagnostico(buelta, 'Error: La palabra correcta es "vuelta", con V.').
 diagnostico(vuelta, '¡Excelente! La palabra está escrita correctamente.').
+diagnostico(buelta, 'Error: La palabra correcta es "vuelta", con V.').
 
-diagnostico(biaje, 'Error: La palabra correcta es "viaje", con V.').
 diagnostico(viaje, '¡Excelente! La palabra está escrita correctamente.').
+diagnostico(biaje, 'Error: La palabra correcta es "viaje", con V.').
 
-diagnostico(vicicleta, 'Error: La palabra correcta es "bicicleta", con B.').
 diagnostico(bicicleta, '¡Excelente! La palabra está escrita correctamente.').
+diagnostico(vicicleta, 'Error: La palabra correcta es "bicicleta", con B.').
 
-diagnostico(veneficio, 'Error: La palabra correcta es "beneficio", con B.').
 diagnostico(beneficio, '¡Excelente! La palabra está escrita correctamente.').
+diagnostico(veneficio, 'Error: La palabra correcta es "beneficio", con B.').
 
-diagnostico(berano, 'Error: La palabra correcta es "verano", con V.').
 diagnostico(verano, '¡Excelente! La palabra está escrita correctamente.').
+diagnostico(berano, 'Error: La palabra correcta es "verano", con V.').
 
-diagnostico(bentana, 'Error: La palabra correcta es "ventana", con V.').
 diagnostico(ventana, '¡Excelente! La palabra está escrita correctamente.').
+diagnostico(bentana, 'Error: La palabra correcta es "ventana", con V.').
 
-diagnostico(buelo, 'Error: La palabra correcta es "vuelo", con V.').
 diagnostico(vuelo, '¡Excelente! La palabra está escrita correctamente.').
+diagnostico(buelo, 'Error: La palabra correcta es "vuelo", con V.').
 
-diagnostico(vanco, 'Error: La palabra correcta es "banco", con B.').
 diagnostico(banco, '¡Excelente! La palabra está escrita correctamente.').
+diagnostico(vanco, 'Error: La palabra correcta es "banco", con B.').
 
-diagnostico(bentaja, 'Error: La palabra correcta es "ventaja", con V.').
 diagnostico(ventaja, '¡Excelente! La palabra está escrita correctamente.').
+diagnostico(bentaja, 'Error: La palabra correcta es "ventaja", con V.').
 
+diagnostico(votación, '¡Excelente! La palabra está escrita correctamente.').
+diagnostico(votacion, 'Error: Te faltó el acento en la "o". La palabra correcta es "votación".').
+diagnostico(botación, 'Error: La palabra correcta es "votación", con V y acento en la o.').
+diagnostico(botacion, 'Error: La palabra correcta es "votación", con V y acento en la o.').
 
-diagnostico('votación', '¡Excelente! La palabra está escrita correctamente.').
-diagnostico('votacion', 'Error: Te faltó el acento en la "o". La palabra correcta es "votación".').
-diagnostico('botación', 'Error: La palabra correcta es "votación", con V.').
-diagnostico(botacion, 'Error: La palabra correcta es "votación", con V y acento en la O.').
-
-diagnostico(vodega, 'Error: La palabra correcta es "bodega", con B.').
 diagnostico(bodega, '¡Excelente! La palabra está escrita correctamente.').
+diagnostico(vodega, 'Error: La palabra correcta es "bodega", con B.').
 
-
-% --- REGLAS DE M y N ---
-diagnostico(imventario, 'Error: Antes de V siempre se escribe N, no M. La palabra correcta es "inventario".').
+% ----------------------------------------------------------
+% M y N
+% ----------------------------------------------------------
 diagnostico(inventario, '¡Excelente! La palabra está escrita correctamente.').
+diagnostico(imventario, 'Error: Antes de V se escribe N. La palabra correcta es "inventario".').
 
-diagnostico(inportante, 'Error: Antes de P y B siempre se escribe M. La palabra correcta es "importante".').
 diagnostico(importante, '¡Excelente! La palabra está escrita correctamente.').
+diagnostico(inportante, 'Error: Antes de P y B se escribe M. La palabra correcta es "importante".').
 
-diagnostico(enbase, 'Error: Antes de B va M, y antes de V va N. La palabra correcta es "envase".').
 diagnostico(envase, '¡Excelente! La palabra está escrita correctamente.').
+diagnostico(enbase, 'Error: La palabra correcta es "envase", con V.').
 
-
-% --- REGLAS DE G y J ---
-diagnostico(escojer, 'Error: Los verbos terminados en -ger y -gir se escriben con G (ej. escoger), excepto tejer y crujir.').
+% ----------------------------------------------------------
+% G y J
+% ----------------------------------------------------------
 diagnostico(escoger, '¡Excelente! La palabra está escrita correctamente.').
+diagnostico(escojer, 'Error: La palabra correcta es "escoger", con G.').
 
-diagnostico(protejer, 'Error: La palabra correcta es "proteger", con G.').
 diagnostico(proteger, '¡Excelente! La palabra está escrita correctamente.').
+diagnostico(protejer, 'Error: La palabra correcta es "proteger", con G.').
 
-diagnostico(garage, 'Error: Aunque en inglés es con G, en español se escribe "garaje" con J.').
 diagnostico(garaje, '¡Excelente! La palabra está escrita correctamente.').
+diagnostico(garage, 'Error: En español se escribe "garaje", con J.').
 
-
-% --- REGLAS DE LL y Y ---
-diagnostico(desarroyo, 'Error: La palabra correcta es "desarrollo", con LL.').
+% ----------------------------------------------------------
+% LL y Y
+% ----------------------------------------------------------
 diagnostico(desarrollo, '¡Excelente! La palabra está escrita correctamente.').
+diagnostico(desarroyo, 'Error: La palabra correcta es "desarrollo", con LL.').
 
-diagnostico(yave, 'Error: La palabra correcta es "llave", con LL.').
 diagnostico(llave, '¡Excelente! La palabra está escrita correctamente.').
+diagnostico(yave, 'Error: La palabra correcta es "llave", con LL.').
 
+% ----------------------------------------------------------
+% Si no existe la palabra en la base de conocimientos
+% ----------------------------------------------------------
+diagnostico(_, 'La palabra no está en la base de conocimientos. Revisa tu escritura o agrega esta palabra al conocimiento.').
 
-% --- Última regla ---
-diagnostico(_, 'La palabra no está en la base de conocimientos o revisa tu escritura.').
+% Fin de la base de conocimientos.
