@@ -116,7 +116,7 @@ diagnostico(banco, '¡Excelente! La palabra está escrita correctamente.').
 diagnostico(bentaja, 'Error: La palabra correcta es "ventaja", con V.').
 diagnostico(ventaja, '¡Excelente! La palabra está escrita correctamente.').
 
-diagnostico(votación, '¡Excelente! La palabra está escrita correctamente con V y acento.').
+diagnostico('votación', '¡Excelente! La palabra está escrita correctamente con V y acento.').
 diagnostico(votacion, 'Error: Te faltó el acento. La palabra correcta es "votación".').
 diagnostico('botación', 'Error: La palabra correcta es "votación", con V.').
 diagnostico(botacion, 'Error: La palabra correcta es "votación", con V y acento en la O.').
