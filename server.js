@@ -12,7 +12,7 @@ app.use(express.json());
 // Ruta que recibe la palabra y llama a Prolog
 app.post('/analizar', (req, res) => {
     // Convertimos a minúscula para que coincida con Prolog
-    const palabra = req.body.palabra.toLowerCase(); 
+    const palabra = req.body.palabra.toLowerCase().trim(); 
     
     // Comando para ejecutar SWI-Prolog en modo silencioso (-q)
     // Usamos la ruta por defecto donde se instala en Windows
