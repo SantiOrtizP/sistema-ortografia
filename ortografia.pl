@@ -7,7 +7,6 @@ evaluar(Palabra) :-
 diagnostico(cancion, '¡Excelente! La palabra está escrita correctamente.').
 diagnostico(cansion, 'Error: Las palabras que terminan en -ción se escriben con C si derivan de palabras terminadas en -to, -tor (ej. canto -> cancion).').
 diagnostico(desicion, 'Error: Las palabras terminadas en -sión se escriben con S cuando derivan de verbos terminados en -der, -dir (ej. decidir -> decision).').
-diagnostico(_, 'La palabra no está en la base de conocimientos o revisa tu escritura.').
 diagnostico(acer, 'Error: La palabra correcta es "hacer", con H.').
 diagnostico(hacer, '¡Excelente! La palabra está escrita correctamente.').
 
@@ -37,3 +36,5 @@ diagnostico(hielo, '¡Excelente! La palabra está escrita correctamente.').
 
 diagnostico(ora, 'Error: La palabra correcta es "hora", con H, cuando se refiere a una unidad de tiempo.').
 diagnostico(hora, '¡Excelente! La palabra está escrita correctamente.').
+
+diagnostico(_, 'La palabra no está en la base de conocimientos o revisa tu escritura.').
