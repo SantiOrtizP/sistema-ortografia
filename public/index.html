@@ -2,44 +2,213 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema Experto Ortográfico</title>
+
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .contenedor { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); text-align: center; max-width: 400px; }
-        input { padding: 10px; width: 80%; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px; }
-        button { background-color: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 16px; }
-        button:hover { background-color: #0056b3; }
-        #resultado { margin-top: 20px; font-weight: bold; color: #333; }
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #eef4f8, #dfeaf2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .contenedor {
+            background: white;
+            width: 100%;
+            max-width: 520px;
+            padding: 35px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+            text-align: center;
+        }
+
+        h1 {
+            margin-top: 0;
+            color: #1f2937;
+        }
+
+        .subtitulo {
+            color: #64748b;
+            margin-bottom: 25px;
+        }
+
+        .campo {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        input {
+            flex: 1;
+            min-width: 0;
+            padding: 13px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #007bff;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 13px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        #resultado {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            min-height: 50px;
+            font-weight: bold;
+            line-height: 1.5;
+            background: #f8fafc;
+            color: #334155;
+        }
+
+        .correcto {
+            color: #166534 !important;
+            background: #dcfce7 !important;
+        }
+
+        .error {
+            color: #991b1b !important;
+            background: #fee2e2 !important;
+        }
+
+        .info {
+            color: #334155 !important;
+            background: #f1f5f9 !important;
+        }
+
+        @media (max-width: 520px) {
+            .campo {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
     </style>
 </head>
+
 <body>
+    <main class="contenedor">
+        <h1>Validador Ortográfico</h1>
+        <p class="subtitulo">
+            Sistema experto basado en una base de conocimientos en Prolog.
+        </p>
 
-<div class="contenedor">
-    <h2>Validador Ortográfico</h2>
-    <p>Escribe una palabra:</p>
-    <input type="text" id="inputPalabra" placeholder="Escribe aquí...">
-    <button onclick="analizarPalabra()">Analizar</button>
-    
-    <div id="resultado"></div>
-</div>
+        <div class="campo">
+            <input
+                type="text"
+                id="inputPalabra"
+                placeholder="Escribe una palabra..."
+                autocomplete="off"
+                maxlength="50"
+            >
+            <button id="btnAnalizar" type="button">Analizar</button>
+        </div>
 
-<script>
-    async function analizarPalabra() {
-        const palabra = document.getElementById('inputPalabra').value;
-        const divResultado = document.getElementById('resultado');
-        
-        divResultado.innerText = "Analizando...";
+        <div id="resultado" class="info">
+            Escribe una palabra y presiona "Analizar".
+        </div>
+    </main>
 
-        const response = await fetch('/analizar', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ palabra: palabra })
+    <script>
+        const input = document.getElementById('inputPalabra');
+        const boton = document.getElementById('btnAnalizar');
+        const resultado = document.getElementById('resultado');
+
+        async function analizarPalabra() {
+            const palabra = input.value.trim();
+
+            if (!palabra) {
+                mostrarResultado('Escribe una palabra para analizar.', 'error');
+                input.focus();
+                return;
+            }
+
+            boton.disabled = true;
+            resultado.className = 'info';
+            resultado.textContent = 'Analizando...';
+
+            try {
+                const response = await fetch('/analizar', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json; charset=UTF-8'
+                    },
+                    body: JSON.stringify({ palabra })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.respuesta || 'Error en la solicitud.');
+                }
+
+                const texto = data.respuesta || '';
+
+                // Clasificación visual sencilla de la respuesta.
+                if (texto.startsWith('¡Excelente!')) {
+                    mostrarResultado(texto, 'correcto');
+                } else if (texto.startsWith('Error:')) {
+                    mostrarResultado(texto, 'error');
+                } else {
+                    mostrarResultado(texto, 'info');
+                }
+
+            } catch (error) {
+                console.error(error);
+                mostrarResultado(
+                    error.message || 'No se pudo conectar con el sistema experto.',
+                    'error'
+                );
+            } finally {
+                boton.disabled = false;
+            }
+        }
+
+        function mostrarResultado(texto, clase) {
+            resultado.textContent = texto;
+            resultado.className = clase;
+        }
+
+        boton.addEventListener('click', analizarPalabra);
+
+        input.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                analizarPalabra();
+            }
         });
-
-        const data = await response.json();
-        divResultado.innerText = data.respuesta;
-    }
-</script>
-
+    </script>
 </body>
 </html>
