@@ -16,8 +16,7 @@ app.post('/analizar', (req, res) => {
     
     // Comando para ejecutar SWI-Prolog en modo silencioso (-q)
     // Usamos la ruta por defecto donde se instala en Windows
-    const comando = `"C:\\Program Files\\swipl\\bin\\swipl.exe" -q -s ortografia.pl -g "evaluar(${palabra})" -t halt.`;
-
+    const comando = `chcp 65001 > nul & "C:\\Program Files\\swipl\\bin\\swipl.exe" -q -s ortografia.pl -g "evaluar('${palabra}')" -t halt.`;
     exec(comando, (error, stdout, stderr) => {
         if (error) {
             console.error(`Error al ejecutar Prolog: ${error}`);
