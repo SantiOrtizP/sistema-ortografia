@@ -20,7 +20,7 @@ diagnostico(hola, '¡Excelente! La palabra está escrita correctamente.').
 diagnostico(asta, 'Error: Si te refieres a la forma verbal, la palabra correcta es "hasta", con H.').
 diagnostico(hasta, '¡Excelente! La palabra está escrita correctamente.').
 
-diagnostico( echo, 'Error: La palabra correcta es "hecho", con H, cuando se refiere a algo realizado.').
+diagnostico(echo, 'Error: La palabra correcta es "hecho", con H, cuando se refiere a algo realizado.').
 diagnostico(hecho, '¡Excelente! La palabra está escrita correctamente.').
 
 diagnostico(ermano, 'Error: La palabra correcta es "hermano", con H.').
