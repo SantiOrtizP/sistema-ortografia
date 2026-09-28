@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Sistema Experto Ortográfico</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .contenedor { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); text-align: center; max-width: 400px; }
+        input { padding: 10px; width: 80%; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px; }
+        button { background-color: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 16px; }
+        button:hover { background-color: #0056b3; }
+        #resultado { margin-top: 20px; font-weight: bold; color: #333; }
+    </style>
+</head>
+<body>
+
+<div class="contenedor">
+    <h2>Validador Ortográfico Inteligente</h2>
+    <p>Escribe una palabra (ej. cancion, cansion):</p>
+    <input type="text" id="inputPalabra" placeholder="Escribe aquí...">
+    <button onclick="analizarPalabra()">Analizar</button>
+    
+    <div id="resultado"></div>
+</div>
+
+<script>
+    async function analizarPalabra() {
+        const palabra = document.getElementById('inputPalabra').value;
+        const divResultado = document.getElementById('resultado');
+        
+        divResultado.innerText = "Analizando...";
+
+        const response = await fetch('/analizar', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ palabra: palabra })
+        });
+
+        const data = await response.json();
+        divResultado.innerText = data.respuesta;
+    }
+</script>
+
+</body>
+</html>
